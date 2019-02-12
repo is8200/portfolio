@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-f = open("e:/kiha/shDir/python/lotto.txt", "r", encoding='utf8')
+f = open("e:/kiha/python/lotto/lotto.txt", "r", encoding='utf8')
 
 soup = BeautifulSoup(f, 'lxml')
 
@@ -55,7 +55,7 @@ for idx in range(1, 844):
 
 
 
-w = open("e:/kiha/shDir/python/lottoDatas.txt", "w", encoding='utf8')
+w = open("e:/kiha/python/lotto/lottoDatas.txt", "w", encoding='utf8')
 w.write('\n'.join(dataList))
 w.close()
 
