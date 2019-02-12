@@ -1,0 +1,109 @@
+version: '3.3'
+
+services:
+  sparkclient:
+    container_name: sparkclient
+    hostname: sparkclient
+    image: is8200/sparkclient:0.1
+    environment:
+      - JAVA_HOME=${LJAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks:
+      spark-network:
+        ipv4_address: 172.18.0.2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+    expose:
+      - "22"
+      - "8020"
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoop:/hadoop"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+      - "e:/kiha/shDir:/var/shDir"
+    cap_add:
+      - SYS_ADMIN
+    depends_on:
+      - sparkdatanode00
+
+  sparknamenode:
+    container_name: sparknamenode
+    hostname: sparknamenode
+    image: is8200/sparknamenode:0.1
+    environment:
+      - JAVA_HOME=${LJAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks:
+      spark-network:
+        ipv4_address: 172.18.0.3 
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+    expose:
+      - "22"
+      - "8020"
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+
+  sparkdatanode00:
+    container_name: sparkdatanode00
+    hostname: sparkdatanode00
+    image: is8200/sparkdatanode:0.1
+    environment:
+      - JAVA_HOME=${LJAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks: 
+      spark-network:
+        ipv4_address: 172.18.0.5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+    expose:
+      - "22"
+      - "8020"
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+    depends_on:
+      - sparknamenode
+
+networks:
+  default:
+    driver: tempOne-1
+  spark-network:
+    external:
+      name: spark-network
+  

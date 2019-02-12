@@ -1,0 +1,26 @@
+253:2 Read 4734
+253:2 Write 757
+253:2 Sync 358
+253:2 Async 5133
+253:2 Total 5491
+253:1 Read 90
+253:1 Write 0
+253:1 Sync 0
+253:1 Async 90
+253:1 Total 90
+253:0 Read 13834
+253:0 Write 3167
+253:0 Sync 253
+253:0 Async 16748
+253:0 Total 17001
+8:0 Read 20852
+8:0 Write 4233
+8:0 Sync 879
+8:0 Async 24206
+8:0 Total 25085
+11:0 Read 21
+11:0 Write 0
+11:0 Sync 0
+11:0 Async 21
+11:0 Total 21
+Total 47688

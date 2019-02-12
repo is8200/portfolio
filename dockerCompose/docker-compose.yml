@@ -1,0 +1,211 @@
+version: '3.3'
+
+services:
+  sparkclient:
+    container_name: sparkclient
+    hostname: sparkclient
+    #build: 
+      #context: .
+      #dockerfile: ~/Download/spark-master/Dockerfile-dev
+    image: is8200/sparkclient:0.2
+    environment:
+      - JAVA_HOME=${LJAVA_HOME}
+    #  - PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks:
+      spark-network:
+        #ipv4_address: 11.0.120.4
+        ipv4_address: 172.18.0.2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+     # - "spark-worker02:10.0.120.9"
+     # - "spark-worker03:10.0.120.10"
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoop:/hadoop"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+      - "e:/kiha/shDir:/var/shDir"
+    cap_add:
+      - SYS_ADMIN
+    #healthcheck:
+    #  test: ""
+    #  interval: 3s
+    #  timeout: 1s
+    #  retries: 10
+    #depends_on:
+    #  - sparkdatanode00
+    #command: /usr/sbin/init && /var/shDir/mkdirHdfs.sh && /bin/bash
+
+  sparknamenode:
+    container_name: sparknamenode
+    hostname: sparknamenode
+    #build: 
+      #context: .
+      #dockerfile: ~/Download/spark-master/Dockerfile-dev
+    image: is8200/sparknamenode:0.2
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+   #   - PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks:
+      spark-network:
+        ipv4_address: 172.18.0.3 
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+     # - "spark-worker02:10.0.120.9"
+     # - "spark-worker03:10.0.120.10"
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+    #healthcheck:
+    #  test: ""
+    #  interval: 3s
+    #  timeout: 1s
+    #  retries: 10
+    #command: /usr/sbin/init && sudo -u hdfs hdfs namenode -format
+
+  sparkresourcemanager:
+    container_name: sparkresourcemanager
+    hostname: sparkresourcemanager
+    #build: 
+      #context: .
+      #dockerfile: ~/Download/spark-master/Dockerfile-dev
+    image: is8200/sparkresourcemanager:0.2
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+      #- PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks:
+      spark-network:
+        ipv4_address: 172.18.0.4
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+    #healthcheck:
+     # test: "pg_isready -h localhost -p 5432 -q -U postgres"
+     # interval: 3s
+     # timeout: 1s
+     # retries: 10
+    #depends_on:
+    #  - sparknodemanager00
+    #command: /usr/sbin/init && service hadoop-yarn-resourcemanager start
+
+  sparkdatanode00:
+    container_name: sparkdatanode00
+    hostname: sparkdatanode00
+    image: is8200/sparkdatanode:0.2
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+      #- PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks: 
+      spark-network:
+        ipv4_address: 172.18.0.5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6"
+
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+    #depends_on:
+    #  - sparknamenode
+    #command: /usr/sbin/init && service hadoop-hdfs-datanode start
+
+  sparknodemanager00:
+    container_name: sparknodemanager00
+    hostname: sparknodemanager00
+    image: is8200/sparknodemanager:0.2
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+      #- PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    privileged: true
+    networks: 
+      spark-network:
+        ipv4_address: 172.18.0.6
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    extra_hosts:
+      - "sparkclient:172.18.0.2"
+      - "sparknamenode:172.18.0.3"
+      - "sparkresourcemanager:172.18.0.4"
+      - "sparkdatanode00:172.18.0.5"
+      - "sparknodemanager00:172.18.0.6" 
+
+    volumes:
+      - "e:/kiha/sharedDir/cgroup:/sys/fs/cgroup:ro"
+      - "e:/kiha/sharedDir/hadoopConf:/etc/hadoop/conf:ro"
+    cap_add:
+      - SYS_ADMIN
+    #depends_on:
+    #  - sparkclient
+    #command: /usr/sbin/init && service hadoop-yarn-nodemanager start
+
+networks:
+  default:
+    driver: tempOne-1
+    #external:
+      #name: spark-network
+  spark-network:
+    external:
+      name: spark-network
+  #driver:
+  
+volumes:
+  dBus: 
+   #driver: local
+   #driver_opts:
+   #  o: 'bind'
+   #  device: '/sys/fc/cgroup'

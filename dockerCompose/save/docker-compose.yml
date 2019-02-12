@@ -1,0 +1,86 @@
+version: '3.3'
+
+services:
+  spark-master:
+    container_name: spark-master
+    hostname: spark-master
+    #build: 
+      #context: .
+      #dockerfile: ~/Download/spark-master/Dockerfile-dev
+    image: spark-master-dev
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+      - PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    command: /bin/bash
+    privileged: true
+    networks:
+      spark-network:
+        ipv4_address: 10.0.120.6
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+    extra_hosts:
+      - "client:10.0.120.5"
+      - "spark-master:10.0.120.6"
+      - "spark-worker00:10.0.120.7"
+      - "spark-worker01:10.0.120.8"
+      - "spark-worker02:10.0.120.9"
+      - "spark-worker03:10.0.120.10"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    cap_add:
+      - SYS_ADMIN
+    #healthcheck:
+     # test: "pg_isready -h localhost -p 5432 -q -U postgres"
+     # interval: 3s
+     # timeout: 1s
+     # retries: 10
+  
+  spark-worker00:
+    container_name: spark-worker00
+    hostname: spark-worker00
+    image: spark-worker-dev
+    environment:
+      - JAVA_HOME=${JAVA_HOME}
+      - PATH=${PATH}:${JAVA_HOME}
+      - container=${container}
+    command: /bin/bash
+    privileged: true
+    networks: 
+      spark-network:
+        ipv4_address: 10.0.120.7
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+    extra_hosts:
+      - "client:10.0.120.5"
+      - "spark-master:10.0.120.6"
+      - "spark-worker00:10.0.120.7"
+      - "spark-worker01:10.0.120.8"
+      - "spark-worker02:10.0.120.9"
+      - "spark-worker03:10.0.120.10"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    cap_add:
+      - SYS_ADMIN
+networks:
+  default:
+    driver: tempOne-1
+    #external:
+      #name: spark-network
+  spark-network:
+    external:
+      name: spark-network
+  #driver:
+  
+volumes:
+  dBus: 
+   #driver: local
+   #driver_opts:
+   #  o: 'bind'
+   #  device: '/sys/fc/cgroup'
