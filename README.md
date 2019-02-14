@@ -1,6 +1,11 @@
 # portfolio
-dockerImage > spark Å¬¶óÀÌ¾ðÆ®, ³×ÀÓ³ëµå, µ¥ÀÌÅÍ³ëµå, ¸®¼Ò½º¸Å´ÏÀú, ³ëµå¸Å´ÏÀú µµÄ¿ÀÌ¹ÌÁöÆÄÀÏ 
-python/DockerContinerController.py, DockerStart.py > °³¹ßÈ¯°æ¿ë µµÄ¿ ÄÜÅ×ÀÌ³Ê ±¸µ¿(window10 È¯°æ) 
-sharedDir > µµÄ¿ ÄÁÅ×ÀÌ³Ê¿ë °øÀ¯ ÆÄÀÏ 
-shDir > ½ºÅ©¸³Æ®
-python/LottoDataAnal.py > ·Î¶Ç µ¥ÀÌÅÍ ºÐ¼®(½ºÆÄÅ©)
+dockerImage > spark í´ë¼ì´ì–¸íŠ¸, ë„¤ìž„ë…¸ë“œ, ë°ì´í„°ë…¸ë“œ, ë¦¬ì†ŒìŠ¤ë§¤ë‹ˆì €, ë…¸ë“œë§¤ë‹ˆì € ë„ì»¤ì´ë¯¸ì§€íŒŒì¼ 
+
+python/Docker > ê°œë°œí™˜ê²½ìš© ë„ì»¤ ì½˜í…Œì´ë„ˆ êµ¬ë™(window10 í™˜ê²½) 
+
+sharedDir > ë„ì»¤ ì»¨í…Œì´ë„ˆìš© ê³µìœ  íŒŒì¼ 
+
+shDir > ìŠ¤í¬ë¦½íŠ¸
+
+python/lotto > ë¡œë˜ ë°ì´í„° ë¶„ì„(ìŠ¤íŒŒí¬)
+
