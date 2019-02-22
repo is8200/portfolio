@@ -1,0 +1,10 @@
+.box_big {width:50%;min-width:100px;margin:0px auto;border:1px solid #cccccc;}
+.box_big>div {float:left;}
+.box_big::after {content:'';clear:both;display:block;}
+.box_middle {width:80%;}
+.box_button {width:10%;vertical-align:center;}
+.box_button>button {height:100px;width:100%;margin:10px;}
+.box_middle>ul>li {width:100%;list-style-type:none;margin:10px 20px;}
+.box_middle>ul>li::after {content:'';clear:both;display:block;}
+.box_middle>ul>li>div {float:left;;height:20px; width:40%;margin:10px 20px;}
+.chart-container {height:40vh;width:50%;margin:0px auto;}

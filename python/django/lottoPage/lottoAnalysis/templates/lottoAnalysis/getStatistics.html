@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>lotto</title>
+        <style>
+            .box_big {width:50%; min-width:100px; margin:0px auto; }
+            .box_big>div {float:left;}
+            .box_big::after {content:'';clear:both;display:block;}
+            .box_middle {width:80%;}
+            .box_button {width:20%;}
+            .box_button>input {height:60px;width:100%}
+            .box_middle>ul>li {width:100%;list-style-type:none;margin:10px 20px;}
+            .box_middle>ul>li::after {content:'';clear:both;display:block;}
+            .box_middle>ul>li>div {float:left;;height:20px; width:40%;margin:10px 20px;}
+         
+        </style>
+    </head>
+    <body>
+        <h1> ahaha </h1>
+
+        <form id='loadStatistics' action="{% url 'lottoAnalysis:getStatistics' %}" method="post">
+            {% csrf_token %} 
+            <div class='box_big'>
+                <div class='box_middle'>
+                    <ul>
+                        <li>
+                            <div>
+                               시작일: <input type='date'>
+                            </div>
+                            <div>
+                               종료일: <input type='date'>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <div>
+                                보너스번호 포함여부: 
+                                <select>
+                                    <option value='0'> 미포함</option>
+                                    <option value='1'> 포함</option>
+                                </select>
+                            </div>
+                            <div>
+                                x축 설정: 
+                                <select>
+                                    <option value='0'> 최소값</option>
+                                    <option value='1'> 최대값</option>
+                                </select>
+                            
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class='box_button'>
+                    <input type='button' value='abcd'>
+                </div>
+            </div>
+        
+        </form>
+    </body>
+</html>
+
+#{% for pa in pa_list %}
+#{% endfor %}
+#{{ forloop.counter }}
+

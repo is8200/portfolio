@@ -3,6 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
+from urllib import request as requestApi
+from lottoAnalysis.LottoDataAnal import LottoDataAnal
+#from LottoDataAnal 
 
 #from .models import Question
 
@@ -21,5 +24,26 @@ def results(request, question_id) :
 	response = "Your are %s"
 	return HttpResponse(response % question_id)
 
-def vote(request, question_id) :
-	return render(request, 'lottoPredict/')
+def home(request) :
+
+	return render(request, 'lottoAnalysis/home.html')
+
+def getStatistics(request) :
+	pa_list = [{'id' : 1, 'question_text' : 'results'}, {'id' : 2, 'question_text' : 'results'}, {'id' : 3, 'question_text' : 'results'}, {'id' : 4, 'question_text' : 'results'}, {'id' : 5, 'question_text' : 'results'},]
+	
+	
+	try :
+		analType = request.POST['analType']
+	except (KeyError) :
+		analType = None
+	#template = loader.get_template('lottoAnalysis/getStatistics.html')
+	context = {
+		'pa_list' : pa_list,
+		'analType' : analType,
+	}
+
+
+	#lottoDataAnalysys = LottoDataAnal(startDate='2018-11-20')
+	#lottoDataAnalysys.connection()
+
+	return render(request, 'lottoAnalysis/getStatistics.html', context)
