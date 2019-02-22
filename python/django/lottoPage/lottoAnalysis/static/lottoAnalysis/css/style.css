@@ -6,5 +6,7 @@
 .box_button>button {height:100px;width:100%;margin:10px;}
 .box_middle>ul>li {width:100%;list-style-type:none;margin:10px 20px;}
 .box_middle>ul>li::after {content:'';clear:both;display:block;}
-.box_middle>ul>li>div {float:left;;height:20px; width:40%;margin:10px 20px;}
+.box_middle>ul>li>div {float:left;height:20px; width:40%;margin:10px 20px;}
+.box_middle>ul>li>div .leftOrder {float:left;}
+.box_middle>ul>li>div .rightOrder {float:right;}
 .chart-container {height:40vh;width:50%;margin:0px auto;}

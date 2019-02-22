@@ -1,27 +1,27 @@
 from jdeathe/centos-ssh:latest
 MAINTAINER Kiha <kiha@kiha.com>
-
+USER root
 WORKDIR /var
 
 RUN yum install wget -y
 RUN yum install which -y
 RUN yum install java-1.8.0-openjdk-devel.x86_64 -y
 RUN yum install gcc python36 python36-devel python36-libs python36u-pip -y
+#RUN yum install nginx -y
 RUN rpm --import http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
 RUN rpm -ivh http://archive.cloudera.com/cdh5/one-click-install/redhat/6/x86_64/cloudera-cdh-5-0.x86_64.rpm
 RUN sed -i 's/x86_64\/cdh\/5\//x86_64\/cdh\/5.4\//g' /etc/yum.repos.d/cloudera-cdh5.repo
 RUN yum clean all
 
+#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
 RUN ln -s /usr/local/bin/pip3.6 /usr/local/bin/pip3
-RUN pip3.6 install numpy pandas 
+RUN pip3.6 install numpy pandas django 
 #pyspark 
 
 COPY spark/spark-2.3.1-bin-hadoop2.6.tgz /var/spark-2.3.1-bin-hadoop2.6.tgz
 RUN tar zxvf /var/spark-2.3.1-bin-hadoop2.6.tgz -C /opt/
 RUN ln -s /opt/spark-2.3.1-bin-hadoop2.6 /opt/spark
-
-#RUN yum install python2-devel python2-libs python-pip -y
-#RUN pip install numpy pandas pyspark 
 
 RUN touch /etc/profile.d/spark.sh
 RUN echo "export SPARK_HOME=/opt/spark" >> /etc/profile.d/spark.sh
@@ -56,6 +56,6 @@ RUN touch $SPARK_HOME/conf/spark-env.sh;\
 	echo "HADOOP_CONF_DIR=/etc/hadoop/conf" >> $SPARK_HOME/conf/spark-env.sh;
 RUN mkdir /var/shDir 
 
-EXPOSE 22 8020
+EXPOSE 22 8020 8000
 #VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]

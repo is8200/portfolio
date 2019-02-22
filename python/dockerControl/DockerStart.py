@@ -3,13 +3,15 @@ from DockerContainerController import DockerContainer
 
 containerName = ['sparkclient', 'sparknamenode', 'sparkdatanode', 'sparknodemanager', 'sparkresourcemanager']
 containerVolume = {'e:/kiha/sharedDir/hadoop' : {'bind' : '/hadoop', 'mode': 'rw'} \
-            ,'e:/kiha/shDir' : {'bind' : '/var/shDir', 'mode': 'rw'}}
+            ,'e:/kiha/python' : {'bind' : '/var/shDir', 'mode': 'rw'}}
 containerIp = ['172.18.0.2', '172.18.0.3', '172.18.0.4', '172.18.0.5', '172.18.0.6']
 execCommand = [['sudo', '-u', 'hdfs', 'hdfs', 'namenode', '-format'], \
     ['service', 'hadoop-hdfs-datanode', 'start'], \
     ['service', 'hadoop-hdfs-namenode', 'start'], \
     ['service', 'hadoop-yarn-nodemanager', 'start'], \
-    ['service', 'hadoop-yarn-resourcemanager', 'start']]
+    ['service', 'hadoop-yarn-resourcemanager', 'start'] \
+    
+    ]
 imageName =  ['is8200/sparkclient:0.2', 'is8200/sparknamenode:0.2', 'is8200/sparkdatanode:0.2', 'is8200/sparknodemanager:0.2', 'is8200/sparkresourcemanager:0.2']
 
 
@@ -41,6 +43,8 @@ container.open(imageName[4], containerName[4], {}, containerIp[4])
 #매니저 구동
 container.exec(containerName[3], execCommand[3])
 container.exec(containerName[4], execCommand[4])
+#클라이언트 서버 구동
+
 
 #노드 개수 창 띄우기
 #resultLog = container.exec(containerName[0],  ['sudo', '-u', 'hdfs', 'hdfs', 'dfsadmin', '-report'])

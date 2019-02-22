@@ -21,6 +21,10 @@ class DockerContainer:
         #print(containerAllVolume)
         #컨테이너 노드 실행
         self.client = docker.from_env()
+        if self.imageName == 'sparkclient' :
+            assignPort = {'8000/tcp': 8011}        
+        else :
+            assignPort = ''
         container = self.client.containers.run(self.imageName \
             , hostname = self.containerName \
             , domainname = self.containerName \
@@ -30,7 +34,9 @@ class DockerContainer:
             , extra_hosts = self.extraHosts \
             #, network = 'spark-network' \
             , privileged = True \
-            , volumes = containerAllVolume)
+            , volumes = containerAllVolume \
+            , ports = assignPort \
+        )
         self.client.networks.get('spark-network').connect(container, ipv4_address = self.containerIp )
         #print(container.logs())
     def close(self, containerName):
@@ -38,8 +44,11 @@ class DockerContainer:
         sContainer.stop()
         sContainer.remove()
         
-    def exec(self, containerName, commandDocker):
+    def exec(self, containerName, commandDocker, **kwargs):
+        detach = kwargs.get("detach")
+        if detach != True:
+            detach = False
         sContainer = self.client.containers.get(containerName)
         #print(sContainer.logs())
-        sLog = sContainer.exec_run(commandDocker)
+        sLog = sContainer.exec_run(commandDocker, detach=detach)
         print(sLog)
