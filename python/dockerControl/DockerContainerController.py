@@ -24,7 +24,7 @@ class DockerContainer:
         if self.imageName == 'sparkclient' :
             assignPort = {'8000/tcp': 8011}        
         else :
-            assignPort = ''
+            assignPort = {}
         container = self.client.containers.run(self.imageName \
             , hostname = self.containerName \
             , domainname = self.containerName \

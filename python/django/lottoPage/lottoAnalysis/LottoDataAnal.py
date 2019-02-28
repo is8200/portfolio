@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/opt/spark/python/")
 from pyspark import SparkConf
 from pyspark import SparkContext
 from pyspark.rdd import RDD
@@ -5,7 +7,6 @@ from pyspark.sql import Row
 from pyspark.sql import SQLContext
 #from matplotlib import pyplot
 import numpy as np
-import sys
 import re
 import os
 import json
@@ -36,6 +37,9 @@ class LottoDataAnal :
         #filePath = params[1]
         filePath= '/hadoop/lottoDatas.txt'
         conf = SparkConf()
+        conf.setMaster("yarn")
+        print('aaaaa')
+        print(conf.getAll)
         sc = SparkContext(conf = conf)
         lawDataRDD = sc.textFile(filePath)
 

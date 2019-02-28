@@ -13,10 +13,15 @@ RUN rpm -ivh http://archive.cloudera.com/cdh5/one-click-install/redhat/6/x86_64/
 RUN sed -i 's/x86_64\/cdh\/5\//x86_64\/cdh\/5.4\//g' /etc/yum.repos.d/cloudera-cdh5.repo
 RUN yum clean all
 
-#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+#UN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+#mkdir -p /usr/share/nginx/html
+
+#ENV CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/nginx \
+#ENABLED_COLLECTIONS=rh-nginx18
 
 RUN ln -s /usr/local/bin/pip3.6 /usr/local/bin/pip3
-RUN pip3.6 install numpy pandas django 
+RUN pip3.6 install numpy pandas django py4j
 #pyspark 
 
 COPY spark/spark-2.3.1-bin-hadoop2.6.tgz /var/spark-2.3.1-bin-hadoop2.6.tgz
@@ -52,9 +57,19 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == system
 	rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 RUN mkdir /hadoop
+RUN mkdir /hadoop/hdfs
+RUN chown hdfs:hadoop /hadoop/hdfs
+RUN chmod 775 /hadoop/hdfs
+RUN mkdir /hadoop/yarn
+RUN chown yarn:hadoop /hadoop/yarn
+RUN chmod 775 /hadoop/yarn
+RUN mkdir /hadoop/tmp
+RUN chmod 777 /hadoop/tmp
+
 RUN touch $SPARK_HOME/conf/spark-env.sh;\ 
 	echo "HADOOP_CONF_DIR=/etc/hadoop/conf" >> $SPARK_HOME/conf/spark-env.sh;
-RUN mkdir /var/shDir 
+RUN mkdir /var/shDir
+RUN mkdir /var/python
 
 EXPOSE 22 8020 8000
 #VOLUME [ "/sys/fs/cgroup" ]

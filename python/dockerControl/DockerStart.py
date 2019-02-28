@@ -2,8 +2,9 @@ import docker
 from DockerContainerController import DockerContainer
 
 containerName = ['sparkclient', 'sparknamenode', 'sparkdatanode', 'sparknodemanager', 'sparkresourcemanager']
-containerVolume = {'e:/kiha/sharedDir/hadoop' : {'bind' : '/hadoop', 'mode': 'rw'} \
-            ,'e:/kiha/python' : {'bind' : '/var/shDir', 'mode': 'rw'}}
+containerVolume = { #'e:/kiha/sharedDir/hadoop' : {'bind' : '/hadoop', 'mode': 'rw'}, \
+            'e:/kiha/python' : {'bind' : '/var/python', 'mode': 'rw'}, \
+            'e:/kiha/shDir' : {'bind' : '/var/shDir', 'mode': 'rw'}}
 containerIp = ['172.18.0.2', '172.18.0.3', '172.18.0.4', '172.18.0.5', '172.18.0.6']
 execCommand = [['sudo', '-u', 'hdfs', 'hdfs', 'namenode', '-format'], \
     ['service', 'hadoop-hdfs-datanode', 'start'], \

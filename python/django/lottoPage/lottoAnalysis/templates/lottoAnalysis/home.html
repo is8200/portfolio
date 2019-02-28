@@ -5,16 +5,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>lotto</title>
         <style></style>
-        <link rel="stylesheet" type="text/css" href="{% static 'lottoAnalysis/css/style.css' %}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+        <link rel='stylesheet' type='text/css' href='{% static 'lottoAnalysis/css/style.css' %}' >
+        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous' >
+        <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css' >
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js'></script >
+        <script src='https://code.jquery.com/jquery-1.12.4.min.js' integrity='sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=' crossorigin='anonymous'></script>
+        <script src='https://cdn.jsdelivr.net/npm/pikaday/pikaday.js'></script>
         <script>
-            $(document).ready(functino(){
+            $(document).ready(function(){
                 initDate();
-
+               
+                $("#searchBtn").click(function(){
+                    getDatas();
+                });
             });
             function getDatas(){
                 
@@ -22,13 +25,12 @@
                 var eDate = $("#eDate").val() || '';
                 var containBonus = $("#containBonus").val();
                 var xAxis = $("#xAxis").val();
-                
-                $("#searchBtn").click(function(){
-                    
-                    $.ajax({
+                var datas = JSON.stringify({'sDate': sDate, 'eDate': eDate, 'containBonus': containBonus, 'xAxis': xAxis, 'csrfmiddlewaretoken': '{{ csrf_token }}'})    
+                console.log(datas);
+                $.ajax({
                     type:"GET",
                     url:"{% url 'lottoAnalysis:getStatistics' %}",
-                    data:JSON.stringify({'sDate': sDate, 'eDate': eDate, 'containBonus': containBonus, 'xAxis': xAxis, 'csrfmiddlewaretoken': '{{ csrf_token }}'}),
+                    data:datas,
                     dataType:'json',
                     traditional: true,
                     async: false,
@@ -40,8 +42,8 @@
                             alert("안됀다야::::"+err);
                             
                     }
-
                 });
+                
 
             
             }

@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
-from urllib import request as requestApi
+#from urllib import request as requestApi
 from lottoAnalysis.LottoDataAnal import LottoDataAnal
 import json
 
@@ -22,7 +22,7 @@ def getStatistics(request) :
 
 	lottoDataAnalysys = LottoDataAnal(startDate=sDate, endDate=eDate, isContainSecond=bonus)
 	result = lottoDataAnalysys.getDatas(xAxis)
-	
+	#result = 0
 	context = {
 		'result' : result,
 	}
